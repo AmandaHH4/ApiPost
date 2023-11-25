@@ -22,7 +22,7 @@ public class PostModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_post", nullable = false)
-    private int id;
+    private UUID posts;
 
 
     private int quantidadeCurtida;

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Provider;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 
 @RestController
 @RequestMapping(value = "/post", produces = {"application/json"})
@@ -27,7 +28,7 @@ public class PostController {
     return ResponseEntity.status(HttpStatus.OK).body(postRepository.findAll());
     }
 
-    @GetMapping("/{idPost}")
-    public ResponseEntity<Object> exibirpost(@PathVariable)
+  //  @GetMapping("/{idPost}")
+   // public ResponseEntity<Object> exibirpost(@PathVariable( value = "id_Post") UUID id){
 
 }
