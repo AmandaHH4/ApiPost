@@ -1,6 +1,8 @@
 package com.post.apiBlamovipost.controllers;
 
+import com.post.apiBlamovipost.dtos.ComentarioDto;
 import com.post.apiBlamovipost.dtos.PostDto;
+import com.post.apiBlamovipost.models.ComentarioModel;
 import com.post.apiBlamovipost.models.PostModel;
 import com.post.apiBlamovipost.repositories.ComentarioRepository;
 import com.post.apiBlamovipost.repositories.PostRepository;
@@ -43,11 +45,11 @@ public class ComentarioController {
 //        if (postRepository.finByPost(dadosRecebidos.texto()) != null) {
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
 //        }
-        PostModel postModel = new PostModel();
+        ComentarioModel comentarioModel = new ComentarioModel();
         BeanUtils.copyProperties(dadosRecebidos, comentarioModel);
 
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(comentarioRepository.save(postModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(comentarioRepository.save(comentarioModel));
     }
 
 
