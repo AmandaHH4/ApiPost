@@ -2,6 +2,7 @@ package com.post.apiBlamovipost.controllers;
 
 import com.post.apiBlamovipost.dtos.PostDto;
 import com.post.apiBlamovipost.models.PostModel;
+import com.post.apiBlamovipost.repositories.ComentarioRepository;
 import com.post.apiBlamovipost.repositories.PostRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -14,41 +15,42 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+
 @RestController
-@RequestMapping(value = "/post", produces = {"application/json"})
-public class PostController {
+@RequestMapping(value = "/comentario", produces = {"application/json"})
+public class ComentarioController {
 
     @Autowired
-    PostRepository postRepository;
-
+    ComentarioRepository comentarioRepository;
 
     @GetMapping
-    public ResponseEntity<List<PostModel>> ListarPost() {
-        return ResponseEntity.status(HttpStatus.OK).body(postRepository.findAll());
+    public ResponseEntity<List<PostModel>> ListarComentario() {
+        return ResponseEntity.status(HttpStatus.OK).body(comentarioRepository.findAll());
     }
 
-    //  @GetMapping("/{idPost}")
-    // public ResponseEntity<Object> exibirpost(@PathVariable( value = "id_Post") UUID id){
-
-    @GetMapping("/{idPost}")
-    public ResponseEntity<Object> buscarPostid(@PathVariable(value = "idPost") UUID id) {
-        Optional<PostModel> postBuscado = postRepository.findById(id);
+    @GetMapping("/{idComentario}")
+    public ResponseEntity<Object> buscarComentario(@PathVariable(value = "idComentario") UUID id) {
+        Optional<PostModel> postBuscado = comentarioRepository.findById(id);
 
         if (postBuscado.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post nao encontrado");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("");
         }
         return ResponseEntity.status(HttpStatus.OK).body(postBuscado.get());
     }
 
     @PostMapping
-    public ResponseEntity<Object> cadastrarPost(@RequestBody @Valid PostDto dadosRecebidos) {
+    public ResponseEntity<Object> cadastrarComentario(@RequestBody @Valid ComentarioDto dadosRecebidos) {
 //        if (postRepository.finByPost(dadosRecebidos.texto()) != null) {
 //            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
 //        }
         PostModel postModel = new PostModel();
-        BeanUtils.copyProperties(dadosRecebidos, postModel);
+        BeanUtils.copyProperties(dadosRecebidos, comentarioModel);
 
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(postRepository.save(postModel));
+        return ResponseEntity.status(HttpStatus.CREATED).body(comentarioRepository.save(postModel));
     }
+
+
+
+
 }

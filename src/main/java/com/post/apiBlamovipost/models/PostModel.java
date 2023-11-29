@@ -32,15 +32,15 @@ public class PostModel implements Serializable {
 
     //@ManyToOne
     //@JoinColumn(name = "id_Video", referencedColumnName = "video")
-    private int id_video;
+    private UUID id_video;
 
     //@ManyToOne
     //@JoinColumn(name = "id_Usuario", referencedColumnName = "usuario")
-    private int id_usuario;
+    private UUID id_usuario;
 
     //@ManyToOne
     //@JoinColumn(name = "id_Comentario", referencedColumnName = "video")
-    private int id_comentario;
+    private UUID id_comentario;
 
 
 

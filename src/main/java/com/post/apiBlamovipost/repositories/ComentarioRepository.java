@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.UUID;
 
-public interface PostRepository extends JpaRepository<PostModel, UUID> {
-   PostModel findByTexto(String texto);
+public interface ComentarioRepository extends JpaRepository<PostModel, UUID>  {
+    ComentarioRepository findByTexto(String texto);
+
 }
