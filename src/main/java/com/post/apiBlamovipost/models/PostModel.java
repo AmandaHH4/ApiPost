@@ -29,6 +29,8 @@ public class PostModel implements Serializable {
     private String texto;
     private String nota;
 
+    private String urlImg;
+
 
     //@ManyToOne
     //@JoinColumn(name = "id_Video", referencedColumnName = "video")

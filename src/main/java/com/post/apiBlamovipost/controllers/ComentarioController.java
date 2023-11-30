@@ -40,17 +40,17 @@ public class ComentarioController {
         return ResponseEntity.status(HttpStatus.OK).body(postBuscado.get());
     }
 
-    @PostMapping
-    public ResponseEntity<Object> cadastrarComentario(@RequestBody @Valid ComentarioDto dadosRecebidos) {
-//        if (postRepository.finByPost(dadosRecebidos.texto()) != null) {
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
-//        }
-        ComentarioModel comentarioModel = new ComentarioModel();
-        BeanUtils.copyProperties(dadosRecebidos, comentarioModel);
-
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(comentarioRepository.save(comentarioModel));
-    }
+//    @PostMapping
+//    public ResponseEntity<Object> cadastrarComentario(@RequestBody @Valid ComentarioDto dadosRecebidos) {
+////        if (postRepository.finByPost(dadosRecebidos.texto()) != null) {
+////            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
+////        }
+//        ComentarioModel comentarioModel = new ComentarioModel();
+//        BeanUtils.copyProperties(dadosRecebidos, comentarioModel);
+//
+//
+//        return ResponseEntity.status(HttpStatus.CREATED).body(ComentarioRepository.save(comentarioModel));
+//    }
 
 
 
