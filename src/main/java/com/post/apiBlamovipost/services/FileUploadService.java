@@ -15,23 +15,29 @@ public class FileUploadService {
     private final Path diretorioImg = Paths.get(System.getProperty("user.dir") + "\\src\\main\\resources\\static\\img");
 
 
-    public String fazerUpload(MultipartFile imagem) throws IOException{
-        if (imagem.isEmpty()){
+    public String fazerUpload(MultipartFile foto) throws IOException{
+        if (foto.isEmpty()){
             System.out.println("imagem vazia");
             return null;
         }
 
-        String[] nomeArquivoArray = imagem .getOriginalFilename().split("\\.");
+        //nomeArquivo.png
+        //nome
+        //png
+        //nome.Arquivo.jpg
+
+
+        String[] nomeArquivoArray = foto.getOriginalFilename().split("\\.");
         String novoNome = LocalDateTime.now().format(DateTimeFormatter.ofPattern("ddMMyyyyHHmmss"));
         String extencaoArquivo = nomeArquivoArray[nomeArquivoArray.length - 1];
 
         String nomeImg = novoNome + "." + extencaoArquivo;
 
-        File imagemCriada = new File(diretorioImg + "\\" + nomeImg);
+        File fotoCriada = new File(diretorioImg + "\\" + nomeImg);
 
-        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(imagemCriada));
+        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(fotoCriada));
 
-        stream.write(imagem.getBytes());
+        stream.write(foto.getBytes());
         stream.close();
 
         return nomeImg;

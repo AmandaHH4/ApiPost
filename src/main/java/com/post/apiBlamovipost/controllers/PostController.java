@@ -25,97 +25,90 @@ public class PostController {
     PostRepository postRepository;
 
     @Autowired
+
     FileUploadService fileUploadService;
 
+
     @GetMapping
-    public ResponseEntity<List<PostModel>> ListarPost() {
+    public ResponseEntity<List<PostModel>> listarUsuarios() {
         return ResponseEntity.status(HttpStatus.OK).body(postRepository.findAll());
     }
 
-    //  @GetMapping("/{idPost}")
-    // public ResponseEntity<Object> exibirpost(@PathVariable( value = "id_Post") UUID id){
-
     @GetMapping("/{idPost}")
-    public ResponseEntity<Object> buscarPostid(@PathVariable(value = "idPost") UUID id) {
+    public ResponseEntity<Object> buscarPost(@PathVariable(value = "idPost") UUID id) {
+        Optional<PostModel> usuarioBuscado = postRepository.findById(id);
+
+        if (usuarioBuscado.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("post não encontrado!");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(usuarioBuscado.get());
+    }
+
+    /*
+    @PostMapping
+    public ResponseEntity<Object> criarUsuario(@RequestBody @Valid UsuarioDto usuarioDto){
+        if (usuarioRepository.findByEmail(usuarioDto.email()) != null){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email já cadastrado!");
+        }
+        UsuarioModel novoUsuario = new UsuarioModel();
+        BeanUtils.copyProperties(usuarioDto, novoUsuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioRepository.save(novoUsuario));
+    }
+    */
+
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<Object> criarPost(@ModelAttribute @Valid PostDto postDto) {
+//        if (usuarioRepository.findByEmail(postDto.email()) != null){
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email já cadastrado!");
+//        }
+
+        PostModel novoPost = new PostModel();
+        BeanUtils.copyProperties(postDto, novoPost);
+
+        String foto;
+
+        try {
+            foto = fileUploadService.fazerUpload(postDto.img());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        novoPost.setUrl_img(foto);
+        //CRIPTOGRAFA A SENHA
+//        String senhaCriptografada = new BCryptPasswordEncoder().encode(usuarioDto.senha());
+//        novoPost.setSenha(senhaCriptografada);
+//
+       return ResponseEntity.status(HttpStatus.CREATED).body(postRepository.save(novoPost));
+    }
+
+
+
+    @PutMapping("/{idPost}")
+    public ResponseEntity<Object> editarPost(@PathVariable(value = "idPost") UUID id, @ModelAttribute @Valid PostDto postDto){
+        Optional<PostModel> postBuscado = postRepository.findById(id);
+
+        if (postBuscado.isEmpty()){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post não encontrado!");
+        }
+        PostModel usuarioBd = postBuscado.get();
+        BeanUtils.copyProperties(postDto, usuarioBd);
+
+        return ResponseEntity.status(HttpStatus.OK).body(postRepository.save(usuarioBd));
+    }
+
+    @DeleteMapping("/{idPost}")
+    public ResponseEntity<Object> deletarPost(@PathVariable(value = "idPost") UUID id){
         Optional<PostModel> postBuscado = postRepository.findById(id);
 
         if (postBuscado.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post nao encontrado");
         }
-        return ResponseEntity.status(HttpStatus.OK).body(postBuscado.get());
+
+        postRepository.delete(postBuscado.get());
+        return ResponseEntity.status(HttpStatus.OK).body("post deletado");
     }
 
-    @PostMapping (consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> cadastrarPost(@ModelAttribute @Valid PostDto dadosRecebidos) {
-//        if (postRepository.finByPost(dadosRecebidos.texto()) != null) {
-//     SEM IMAGEM       return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("");
-//        }
-        PostModel postModel = new PostModel();
-        BeanUtils.copyProperties(dadosRecebidos, postModel);
-
-        String urlImg;
-
-                try{
-                    urlImg = fileUploadService.fazerUpload(dadosRecebidos.img());
-                }catch (IOException error){
-                    throw new RuntimeException(error);
-                }
-
-                postModel.setUrlImg(urlImg);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(postRepository.save(postModel));
-    }
-
-   @PutMapping(value = "/{idPost}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<Object> editarPost(@PathVariable(value = "idPost") UUID id, @ModelAttribute @Valid PostDto postDto){
-
-       Optional<PostModel> postBuscado = postRepository.findById(id);
-
-       if (postBuscado.isEmpty()) {
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post nao encontrado");
-       }
 
 
-       PostModel postModel = postBuscado.get();
-       BeanUtils.copyProperties(postDto, postModel);
-
-
-
-
-       String urlImg;
-
-       try{
-           urlImg = fileUploadService.fazerUpload(postDto.img());
-       }catch (IOException error){
-           throw new RuntimeException(error);
-       }
-
-       postModel.setUrlImg(urlImg);
-
-
-
-
-
-       return ResponseEntity.status(HttpStatus.OK).body(postRepository.save(postModel));
-
-   }
-
-
-   @DeleteMapping("/{idPost}")
-
-    public ResponseEntity<Object> deletarUsuario(@PathVariable(value = "idPost") UUID id){
-       Optional<PostModel> postBuscado = postRepository.findById(id);
-
-       if (postBuscado.isEmpty()) {
-           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Post nao encontrado");
-       }
-
-       postRepository.delete(postBuscado.get());
-       return ResponseEntity.status(HttpStatus.OK).body("post deletado");
-   }
-
-
-
-   }
-
+}
 

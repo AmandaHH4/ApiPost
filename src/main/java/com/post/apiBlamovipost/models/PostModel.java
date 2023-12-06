@@ -21,17 +21,15 @@ public class PostModel implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id_post", nullable = false)
-    private UUID posts;
-
+    @Column(name = "idPost", nullable = false)
+    private UUID id_post;
 
     private int quantidadeCurtida;
     private String texto;
-    private String nota;
-
-    private String urlImg;
+    private String url_img;
 
 
+    // alteracao de url_img
     //@ManyToOne
     //@JoinColumn(name = "id_Video", referencedColumnName = "video")
     private UUID id_video;
@@ -40,9 +38,14 @@ public class PostModel implements Serializable {
     //@JoinColumn(name = "id_Usuario", referencedColumnName = "usuario")
     private UUID id_usuario;
 
+
+
+
+    /// acrescentado para resolver erro no controller
+
     //@ManyToOne
     //@JoinColumn(name = "id_Comentario", referencedColumnName = "video")
-    private UUID id_comentario;
+    //private UUID id_comentario;
 
 
 
