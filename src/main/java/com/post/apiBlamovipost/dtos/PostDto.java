@@ -9,8 +9,8 @@ public record PostDto(
         int quantidadeCurtida,
         String texto,
 
-        UUID id_video,
-        UUID id_usuario,
+        UUID idVideo,
+        UUID idUsuario,
 
         MultipartFile img
 ){}

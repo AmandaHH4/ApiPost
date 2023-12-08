@@ -22,7 +22,7 @@ public class PostModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "idPost", nullable = false)
-    private UUID id_post;
+    private UUID id;
 
     private int quantidadeCurtida;
     private String texto;
@@ -32,11 +32,11 @@ public class PostModel implements Serializable {
     // alteracao de url_img
     //@ManyToOne
     //@JoinColumn(name = "id_Video", referencedColumnName = "video")
-    private UUID id_video;
+    private UUID idVideo;
 
     //@ManyToOne
     //@JoinColumn(name = "id_Usuario", referencedColumnName = "usuario")
-    private UUID id_usuario;
+    private UUID idUsuario;
 
 
 
